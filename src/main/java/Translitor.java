@@ -4,7 +4,9 @@ import java.util.Map;
 /**
  * Created by seroga on 03-Jan-16.
  */
+// TODO make this class non-static
 public class Translitor {
+
 
     private static final Map<String, String> alphabet = new HashMap<>(33);
 
