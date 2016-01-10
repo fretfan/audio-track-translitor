@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -7,6 +8,14 @@ import static org.junit.Assert.*;
  * Created by seroga on 03-Jan-16.
  */
 public class TranslitorTest {
+
+    private Translitor translitor;
+
+    @Before
+    public void setUp() {
+        translitor = new Translitor();
+    }
+
 
     @Test
     public void testTranslit() throws Exception {
@@ -31,9 +40,18 @@ public class TranslitorTest {
                 "zZxXcCvVbBnNmM,<.>/?"
         };
         for (int i = 0; i < before.length; i++) {
-            String actual = Translitor.translit(before[i]);
-            Assert.assertEquals(expected[i], actual);
+            String actual = translitor.translit(before[i]);
+            assertEquals(expected[i], actual);
         }
 
+    }
+
+    @Test
+    public void testTranslitPath() {
+        String pathBefore = "D:\\Music\\кувалда\\Кувалда_-_лорелей_mp3davalka.com";
+        String pathAfter = "D:\\Music\\кувалда\\Kuvalda_-_lorelej_mp3davalka.com";
+
+        String pathActual = translitor.translitPath(pathBefore);
+        assertEquals(pathAfter, pathActual);
     }
 }

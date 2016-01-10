@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Main {
 
-
+    private static Translitor translitor = new Translitor();
     private static List<String> audioFilesNames = new ArrayList<>();
 
     public static void readFolderForFileList(String path) {
@@ -67,7 +67,7 @@ public class Main {
     }
 
     private static String translitText(String text) {
-        return Translitor.translit(text);
+        return translitor.translit(text);
 
     }
 

@@ -4,13 +4,12 @@ import java.util.Map;
 /**
  * Created by seroga on 03-Jan-16.
  */
-// TODO make this class non-static
 public class Translitor {
 
 
-    private static final Map<String, String> alphabet = new HashMap<>(33);
+    private final Map<String, String> alphabet = new HashMap<>(33);
 
-    static {
+    public Translitor() {
         alphabet.put("а", "a");
         alphabet.put("б", "b");
         alphabet.put("в", "v");
@@ -50,7 +49,7 @@ public class Translitor {
         alphabet.put("я", "ja");
     }
 
-    public static String translit(String text) {
+    public String translit(String text) {
         StringBuilder result = new StringBuilder("");
         for (int i = 0; i < text.length(); i++) {
             char currentChar = text.charAt(i);
@@ -75,6 +74,13 @@ public class Translitor {
             }
         }
         return result.toString();
+    }
+
+    public String translitPath(String path) {
+        int index = path.lastIndexOf('\\');
+        String pathToSong = path.substring(0, index);
+        String song = path.substring(index);
+        return pathToSong + translit(song);
     }
 
 }
