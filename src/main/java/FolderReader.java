@@ -62,4 +62,11 @@ public class FolderReader {
         return audioFiles;
     }
 
+    public String getPathToFolder() {
+        return pathToFolder;
+    }
+
+    public void setPathToFolder(String pathToFolder) {
+        this.pathToFolder = pathToFolder;
+    }
 }

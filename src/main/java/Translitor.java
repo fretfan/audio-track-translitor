@@ -54,21 +54,21 @@ public class Translitor {
         for (int i = 0; i < text.length(); i++) {
             char currentChar = text.charAt(i);
             String currentCharStr = String.valueOf(currentChar);
+
             if (alphabet.containsKey(currentCharStr) || alphabet.containsKey(currentCharStr.toLowerCase())) {
+
                 if (Character.isLowerCase(currentChar)) {
                     String engRepresentation = alphabet.get(currentCharStr);
                     result.append(engRepresentation);
+
                 } else if (Character.isUpperCase(currentChar)) {
                     char curCharLowercase = Character.toLowerCase(currentChar);
                     String curCharLowerCaseStr = String.valueOf(curCharLowercase);
-                    try {
-                        String engRepresentationStr = alphabet.get(curCharLowerCaseStr);
-                        String engRepresentationUpperStr = engRepresentationStr.toUpperCase();
-                        result.append(String.valueOf(engRepresentationUpperStr));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    String engRepresentationStr = alphabet.get(curCharLowerCaseStr);
+                    String engRepresentationUpperStr = engRepresentationStr.toUpperCase();
+                    result.append(String.valueOf(engRepresentationUpperStr));
                 }
+
             } else {
                 result.append(currentCharStr);
             }

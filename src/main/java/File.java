@@ -5,6 +5,7 @@ public class File {
 
     private String originalName;
     private String translitedName;
+    private String prefix;
     private FileType type;
 
     public FileType getType() {
@@ -29,5 +30,21 @@ public class File {
 
     public void setTranslitedName(String translitedName) {
         this.translitedName = translitedName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        File file = (File) o;
+
+        return !(originalName != null ? !originalName.equals(file.originalName) : file.originalName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return originalName != null ? originalName.hashCode() : 0;
     }
 }

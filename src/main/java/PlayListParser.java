@@ -1,42 +1,87 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by seroga on 10-Jan-16.
  */
 public class PlayListParser {
 
-    //TODO test for readFolder method. Check if returns list of paths to files
-    // TODO PlayList file parser. If no .m3u8 file - error.
-//    if .m3u8 found. Ignore lines beginning with #M3U8.
-//    Start creating new Playlist file (replace old filenames with new line by line.
-//    Find lastIndex of SLASH. Substring by path / filename.mp3.
-//    Translit filename.mp3. Join strings.
-//    Move old file to new file.
-
     private FolderReader folderReader;
+    private Translitor translitor = new Translitor();
 
     public PlayListParser(FolderReader folderReader) {
         this.folderReader = folderReader;
     }
 
-    private void parsePlaylistFile(Path playlistFile) {
-        try (InputStream in = Files.newInputStream(playlistFile);
-             BufferedReader reader =
-                     new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-//                System.out.println(line);
-//                parseLine(line);
-//                System.out.println("TRANSLIT: " + translitText(line));
-
-            }
-        } catch (IOException x) {
-            System.err.println(x);
+    private List<String> readPlayListFile() {
+        String originalName = folderReader.getPlayListFile().getOriginalName();
+        try {
+            return Files.readAllLines(Paths.get(originalName));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read playlist file", e);
         }
     }
+
+    public void parsePlaylistFile() {
+        List<String> lines = readPlayListFile();
+        List<String> newPlayListContent = new ArrayList<>();
+        List<File> audioFiles = folderReader.getAudioFiles();
+        for (String line : lines) {
+//            System.out.println(line);
+            if (line.startsWith("#")) {
+                newPlayListContent.add(line);
+            } else {
+                parseAudioFilePath(newPlayListContent, audioFiles, line);
+            }
+        }
+        updatePlaylist(newPlayListContent);
+    }
+
+    private void updatePlaylist(List<String> newPlayListContent) {
+        Path path = Paths.get(folderReader.getPlayListFile().getOriginalName());
+        try {
+            Files.deleteIfExists(path);
+            Files.write(path, newPlayListContent, StandardOpenOption.CREATE);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot rewrite playlist " + folderReader.getPlayListFile().getOriginalName(), e);
+        }
+    }
+
+    private void parseAudioFilePath(List<String> newPlayListContent, List<File> audioFiles, String line) {
+        Path pathToFolder = Paths.get(folderReader.getPathToFolder());
+        for (File f : audioFiles) {
+//                    System.out.println("Line: " + line);
+//                    System.out.println("Original: " + originalName);
+            if (f.getOriginalName().equals(line)) {
+                String translitedLine = translitor.translitPath(line);
+                f.setTranslitedName(translitedLine);
+                newPlayListContent.add(translitedLine);
+
+                renameAudioFile(pathToFolder, f);
+                break;
+            }
+        }
+    }
+
+    private void renameAudioFile(Path pathToFolder, File f) {
+        try {
+            DirectoryStream<Path> audioFilePaths = Files.newDirectoryStream(pathToFolder);
+            for (Path p : audioFilePaths) {
+//                        System.out.println(p);
+                if (f.getOriginalName().equals(p.toString())) {
+//                    System.out.println("Renaming: " + f.getOriginalName());
+//                    System.out.println("to: " + f.getTranslitedName());
+                    Files.move(p, p.resolveSibling(f.getTranslitedName()));
+                    break;
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot read directory " + pathToFolder, e);
+        }
+    }
+
 }
