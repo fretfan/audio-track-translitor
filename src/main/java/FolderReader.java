@@ -39,6 +39,8 @@ public class FolderReader {
                     f.setType(FileType.MUSIC_FILE);
                     f.setOriginalName(p.toAbsolutePath().toString());
                     audioFiles.add(f);
+                } else {
+                    System.err.println("Cannot parse file: " + fileName );
                 }
             }
         } catch (IOException ex) {

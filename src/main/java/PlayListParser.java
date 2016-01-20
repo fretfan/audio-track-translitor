@@ -10,9 +10,11 @@ public class PlayListParser {
 
     private FolderReader folderReader;
     private Translitor translitor = new Translitor();
+    private Indexer indexer;
 
-    public PlayListParser(FolderReader folderReader) {
+    public PlayListParser(FolderReader folderReader, Indexer indexer) {
         this.folderReader = folderReader;
+        this.indexer = indexer;
     }
 
     private List<String> readPlayListFile() {
