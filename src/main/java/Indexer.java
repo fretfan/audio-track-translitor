@@ -3,15 +3,11 @@
  */
 public class Indexer {
 
-    private static final String PREFIX = "_";
+    public static final String PREFIX = "_";
     private IndexerOperation operation;
 
     public Indexer(IndexerOperation operation) {
         this.operation = operation;
-    }
-
-    public Indexer() {
-        this.operation = IndexerOperation.NONE;
     }
 
     public String performOperation(String fileName, int index) {
@@ -23,7 +19,7 @@ public class Indexer {
             case UNINDEX:
                 return unindexFileName(fileName);
             default:
-                throw new RuntimeException("Unrecognized indexer operation: " + operation);
+                throw new RuntimeException("Unrecognised indexer operation: " + operation);
         }
     }
 

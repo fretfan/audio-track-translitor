@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
 public class IndexerTest {
 
     private static Indexer indexer;
-    private static final String PREFIX = "_";
 
 
     @Test
@@ -16,9 +15,8 @@ public class IndexerTest {
         indexer = new Indexer(IndexerOperation.INDEX);
         String before = "Enter Sandman - Metallica.mp3";
         for (int i = 1; i <= 10; i++) {
-            String expected = i + PREFIX + before;
+            String expected = i + Indexer.PREFIX + before;
             String actual = indexer.performOperation(before, i);
-//            System.out.println("actual = " + actual);
             assertEquals(expected, actual);
         }
     }
@@ -26,7 +24,7 @@ public class IndexerTest {
     @Test
     public void testPerformOperationUnindex() {
         indexer = new Indexer(IndexerOperation.UNINDEX);
-        String before = "1" + PREFIX +  "Enter Sandman - Metallica.mp3";
+        String before = "1" + Indexer.PREFIX +  "Enter Sandman - Metallica.mp3";
         String expected = "Enter Sandman - Metallica.mp3";
         String actual = indexer.performOperation(before, 0);
         assertEquals(expected, actual);
