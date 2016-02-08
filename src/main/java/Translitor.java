@@ -6,10 +6,15 @@ import java.util.Map;
  */
 public class Translitor {
 
-
+    private TranslitorOperation operation;
     private final Map<String, String> alphabet = new HashMap<>(33);
 
-    public Translitor() {
+    public Translitor(TranslitorOperation operation) {
+        this.operation = operation;
+        init();
+    }
+
+    private void init() {
         alphabet.put("а", "a");
         alphabet.put("б", "b");
         alphabet.put("в", "v");
@@ -49,7 +54,7 @@ public class Translitor {
         alphabet.put("я", "ja");
     }
 
-    public String translit(String text) {
+    public String translitText(String text) {
         StringBuilder result = new StringBuilder("");
         for (int i = 0; i < text.length(); i++) {
             char currentChar = text.charAt(i);
@@ -76,11 +81,22 @@ public class Translitor {
         return result.toString();
     }
 
-    public String translitPath(String path) {
+    private String translitPath(String path) {
         int index = path.lastIndexOf('\\');
         String pathToSong = path.substring(0, index);
         String song = path.substring(index);
-        return pathToSong + translit(song);
+        return pathToSong + translitText(song);
+    }
+
+    public String processPath(String path) {
+        switch (operation) {
+            case NONE:
+                return path;
+            case TRANSLIT:
+                return translitPath(path);
+            default:
+                throw new RuntimeException("Unrecognised translitor operation: " + operation);
+        }
     }
 
 }

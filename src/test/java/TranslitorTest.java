@@ -12,13 +12,12 @@ public class TranslitorTest {
 
     @Before
     public void setUp() {
-        translitor = new Translitor();
+        translitor = new Translitor(TranslitorOperation.TRANSLIT);
     }
-
 
     @Test
     public void testTranslit() throws Exception {
-        String[] before = new String[] {
+        String[] before = new String[]{
                 "№~`1!2@3#4$5%6^7&8*9(0)-_=+/|\\",
                 "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪ",
                 "фФыЫвВаАпПрРоОлЛдДжЖэЭ",
@@ -28,7 +27,7 @@ public class TranslitorTest {
                 "aAsSdDfFgGhHjJkKlL;:'\"",
                 "zZxXcCvVbBnNmM,<.>/?"
         };
-        String[] expected = new String[] {
+        String[] expected = new String[]{
                 "№~`1!2@3#4$5%6^7&8*9(0)-_=+/|\\",
                 "jJcCuUkKeEnNgGshSHwWzZhH^^",
                 "fFyYvVaApPrRoOlLdDzhZHeE",
@@ -39,10 +38,9 @@ public class TranslitorTest {
                 "zZxXcCvVbBnNmM,<.>/?"
         };
         for (int i = 0; i < before.length; i++) {
-            String actual = translitor.translit(before[i]);
+            String actual = translitor.translitText(before[i]);
             assertEquals(expected[i], actual);
         }
-
     }
 
     @Test
@@ -50,7 +48,17 @@ public class TranslitorTest {
         String pathBefore = "D:\\Music\\кувалда\\Кувалда_-_лорелей_mp3davalka.com";
         String pathAfter = "D:\\Music\\кувалда\\Kuvalda_-_lorelej_mp3davalka.com";
 
-        String pathActual = translitor.translitPath(pathBefore);
+        String pathActual = translitor.processPath(pathBefore);
+        assertEquals(pathAfter, pathActual);
+    }
+
+    @Test
+    public void testTranslitPathDoNothing() {
+        translitor = new Translitor(TranslitorOperation.NONE);
+        String pathBefore = "D:\\Music\\кувалда\\Кувалда_-_лорелей_mp3davalka.com";
+        String pathAfter = "D:\\Music\\кувалда\\Кувалда_-_лорелей_mp3davalka.com";
+
+        String pathActual = translitor.processPath(pathBefore);
         assertEquals(pathAfter, pathActual);
     }
 }
