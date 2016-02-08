@@ -26,7 +26,7 @@ public class FolderReaderTest {
             "тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
     };
 
-    private static String folderLocStr = "D:/java/projects/playlist-creator/test-music";
+    private static Path folderLocStr = Paths.get("D:/java/projects/playlist-creator/test-music");
     private static Path folderLocPath;
 
 

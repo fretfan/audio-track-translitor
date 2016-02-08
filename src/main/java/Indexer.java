@@ -4,7 +4,7 @@
 public class Indexer {
 
     public static final String PREFIX = "_";
-    private IndexerOperation operation;
+    private final IndexerOperation operation;
 
     public Indexer(IndexerOperation operation) {
         this.operation = operation;

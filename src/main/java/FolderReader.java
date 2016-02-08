@@ -11,20 +11,20 @@ import java.util.List;
  */
 public class FolderReader {
 
-    private String pathToFolder;
+    private Path pathToFolder;
     private File playListFile;
     private List<File> audioFiles = new ArrayList<>();
 
-    public FolderReader(String pathToFolder) {
+    public FolderReader(Path pathToFolder) {
         this.pathToFolder = pathToFolder;
         readFolderForFiles(pathToFolder);
 
     }
 
-    private void readFolderForFiles(String path) {
-        String filteredPath = filterPath(path);
+    private void readFolderForFiles(Path path) {
+//        String filteredPath = filterPath(path);
 
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(filteredPath))) {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
             for (Path p : directoryStream) {
 //                System.out.println(p.getFileName().toString());
 //                System.out.println(p.toAbsolutePath().toString());
@@ -44,14 +44,14 @@ public class FolderReader {
                 }
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Cannot read: " + path, ex);
         }
     }
 
-    private String filterPath(String path) {
-        String newPath = path.replace("/", "\\");
-        return newPath;
-    }
+//    private String filterPath(Path path) {
+//        String newPath = path.replace("/", "\\");
+//        return newPath;
+//    }
 
     public File getPlayListFile() {
         if (playListFile == null) {
@@ -64,11 +64,11 @@ public class FolderReader {
         return audioFiles;
     }
 
-    public String getPathToFolder() {
+    public Path getPathToFolder() {
         return pathToFolder;
     }
 
-    public void setPathToFolder(String pathToFolder) {
+    public void setPathToFolder(Path pathToFolder) {
         this.pathToFolder = pathToFolder;
     }
 }

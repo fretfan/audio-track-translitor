@@ -9,12 +9,13 @@ import java.util.List;
 public class PlayListParser {
 
     private FolderReader folderReader;
-    private Translitor translitor = new Translitor();
+    private Translitor translitor;
     private Indexer indexer;
 
-    public PlayListParser(FolderReader folderReader, Indexer indexer) {
+    public PlayListParser(FolderReader folderReader, Indexer indexer, Translitor translitor) {
         this.folderReader = folderReader;
         this.indexer = indexer;
+        this.translitor = translitor;
     }
 
     private List<String> readPlayListFile() {
@@ -26,16 +27,18 @@ public class PlayListParser {
         }
     }
 
-    public void parsePlaylistFile() {
+    public void execute() {
         List<String> lines = readPlayListFile();
         List<String> newPlayListContent = new ArrayList<>();
         List<File> audioFiles = folderReader.getAudioFiles();
+        int trackCount = 0;
         for (String line : lines) {
 //            System.out.println(line);
             if (line.startsWith("#")) {
                 newPlayListContent.add(line);
             } else {
-                parseAudioFilePath(newPlayListContent, audioFiles, line);
+//                trackCount++;
+                parseAudioFilePath(newPlayListContent, audioFiles, line, trackCount);
             }
         }
         updatePlaylist(newPlayListContent);
@@ -52,13 +55,14 @@ public class PlayListParser {
         }
     }
 
-    private void parseAudioFilePath(List<String> newPlayListContent, List<File> audioFiles, String line) {
-        Path pathToFolder = Paths.get(folderReader.getPathToFolder());
+    private void parseAudioFilePath(List<String> newPlayListContent, List<File> audioFiles, String line, int trackCount) {
+        Path pathToFolder = folderReader.getPathToFolder();
         for (File f : audioFiles) {
 //                    System.out.println("Line: " + line);
 //                    System.out.println("Original: " + originalName);
             if (f.getOriginalName().equals(line)) {
-                String translitedLine = translitor.translitPath(line);
+                String translitedLine = translitor.processPath(line);
+//                translitedLine = indexer.performOperation(translitedLine, trackCount);
                 f.setTranslitedName(translitedLine);
                 newPlayListContent.add(translitedLine);
 

@@ -6,7 +6,7 @@ import java.util.Map;
  */
 public class Translitor {
 
-    private TranslitorOperation operation;
+    private final TranslitorOperation operation;
     private final Map<String, String> alphabet = new HashMap<>(33);
 
     public Translitor(TranslitorOperation operation) {
