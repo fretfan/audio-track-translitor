@@ -31,4 +31,8 @@ public class Indexer {
         int pos = fileName.indexOf(PREFIX) + PREFIX.length();
         return fileName.substring(pos);
     }
+
+    public IndexerOperation getOperation() {
+        return operation;
+    }
 }

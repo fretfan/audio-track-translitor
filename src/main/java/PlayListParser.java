@@ -28,6 +28,10 @@ public class PlayListParser {
     }
 
     public void execute() {
+        if (indexer.getOperation() == IndexerOperation.NONE
+                && translitor.getOperation() == TranslitorOperation.NONE) {
+            return;
+        }
         List<String> lines = readPlayListFile();
         List<String> newPlayListContent = new ArrayList<>();
         List<File> audioFiles = folderReader.getAudioFiles();

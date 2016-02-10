@@ -14,6 +14,10 @@ public class Translitor {
         init();
     }
 
+    public TranslitorOperation getOperation() {
+        return operation;
+    }
+
     private void init() {
         alphabet.put("а", "a");
         alphabet.put("б", "b");

@@ -9,6 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by seroga on 22-Jan-16.
  */
@@ -105,25 +108,43 @@ public class PlayListParserTest {
         Indexer indexer = new Indexer(IndexerOperation.NONE);
         Translitor translitor = new Translitor(TranslitorOperation.NONE);
         playListParser = new PlayListParser(folderReader, indexer, translitor);
-//        playListParser.execute();
+        playListParser.execute();
 
         DirectoryStream<Path> paths = Files.newDirectoryStream(FOLDER_LOC);
         Iterator<Path> iterator = paths.iterator();
+
+        boolean playlistFileFound = false;
+
         while (iterator.hasNext()) {
             Path next = iterator.next();
-            
-            System.out.println(next);
-        }
 
+            String fileName = next.getFileName().toString();
+            if (fileName.endsWith(".m3u8")) {
+                Path absolutePath = next.toAbsolutePath();
+//                System.out.println("PLAYLIST: " + fileName);
+                String playListContent = readPlayListFile(absolutePath);
+                assertEquals("Playlist content is not equal to expected", playListContent, playListContentBefore);
+                playlistFileFound = true;
+            } else {
+                boolean musicFileFound = false;
+                for (String mp3Name : testMp3FilesBefore) {
+                    if (fileName.equals(mp3Name)) {
+//                        System.out.println("MATCH: " + mp3Name);
+                        musicFileFound = true;
+                    }
+                }
+                assertTrue("Music file not found", musicFileFound);
+            }
+        }
+        assertTrue("Playlist file not found", playlistFileFound);
     }
 
     private void deleteFolderContent() {
-        Path path = FOLDER_LOC;
-        java.io.File file = path.toFile();
+        java.io.File file = FOLDER_LOC.toFile();
         for (String fileName : file.list()) {
             Path filePath = Paths.get(fileName);
             try {
-                Files.delete(path.resolve(filePath));
+                Files.delete(FOLDER_LOC.resolve(filePath));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -131,9 +152,8 @@ public class PlayListParserTest {
     }
 
     private void createFolderContent() {
-        Path path = FOLDER_LOC;
         for (String fileName : testMp3FilesBefore) {
-            Path filePath = path.resolve(fileName);
+            Path filePath = FOLDER_LOC.resolve(fileName);
             try {
                 Files.createFile(filePath);
             } catch (IOException e) {
@@ -144,12 +164,20 @@ public class PlayListParserTest {
     }
 
     private void createPlayListFile() {
-        Path path = FOLDER_LOC;
-        path = path.resolve(playListFileName);
+        Path path = FOLDER_LOC.resolve(playListFileName);
         try {
             Files.write(path, playListContentBefore.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private String readPlayListFile(Path playlistPath) {
+        try {
+            byte[] playlistFileContent = Files.readAllBytes(playlistPath);
+            return new String(playlistFileContent);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read playlist file", e);
         }
     }
 }
