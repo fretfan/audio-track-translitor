@@ -39,7 +39,8 @@ public class PlayListParser {
         for (String line : lines) {
 //            System.out.println(line);
             if (line.startsWith("#")) {
-                newPlayListContent.add(line);
+                String parsedLine = translitor.translitText(line);
+                newPlayListContent.add(parsedLine);
             } else {
 //                trackCount++;
                 parseAudioFilePath(newPlayListContent, audioFiles, line, trackCount);
@@ -62,8 +63,6 @@ public class PlayListParser {
     private void parseAudioFilePath(List<String> newPlayListContent, List<File> audioFiles, String line, int trackCount) {
         Path pathToFolder = folderReader.getPathToFolder();
         for (File f : audioFiles) {
-//                    System.out.println("Line: " + line);
-//                    System.out.println("Original: " + originalName);
             if (f.getOriginalName().equals(line)) {
                 String translitedLine = translitor.processPath(line);
 //                translitedLine = indexer.performOperation(translitedLine, trackCount);
@@ -80,10 +79,7 @@ public class PlayListParser {
         try {
             DirectoryStream<Path> audioFilePaths = Files.newDirectoryStream(pathToFolder);
             for (Path p : audioFilePaths) {
-//                        System.out.println(p);
-                if (f.getOriginalName().equals(p.toString())) {
-//                    System.out.println("Renaming: " + f.getOriginalName());
-//                    System.out.println("to: " + f.getTranslitedName());
+                if (f.getOriginalName().equals(p.toAbsolutePath().toString())) {
                     Files.move(p, p.resolveSibling(f.getTranslitedName()));
                     break;
                 }

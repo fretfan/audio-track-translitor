@@ -22,29 +22,29 @@ public class PlayListParserTest {
 
     private static String playListFileName = "test-playlist.m3u8";
 
-    private static String[] testMp3FilesBefore = new String[]{
-            "OneRepublic%20-%20Стоп%20анд%20Стареe.mp3",
+    private static final String[] testMp3FilesBefore = new String[]{
+            "OneRepublic%20-%20Стоп%20анд%20Старе.mp3",
             "Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3",
             "Scorpions_-_Still_loving_you_(get-tune.net).mp3",
             "тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
     };
 
-    private static String[] testMp3FilesTranslited = new String[]{
+    private static final String[] testMp3FilesTranslited = new String[]{
             "OneRepublic%20-%20Stop%20and%20Stare.mp3",
             "Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3",
             "Scorpions_-_Still_loving_you_(get-tune.net).mp3",
             "tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
     };
 
-    private static String[] testMp3FilesTranslitedIndexed = new String[]{
+    private static final String[] testMp3FilesTranslitedIndexed = new String[]{
             "1 - OneRepublic%20-%20Stop%20and%20Stare.mp3",
             "3 - Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3",
             "4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3",
             "2 - tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
     };
 
-    private static String[] testMp3FilesIndexed = new String[]{
-            "1 - OneRepublic%20-%20Стоп%20анд%20Стареe.mp3",
+    private static final String[] testMp3FilesIndexed = new String[]{
+            "1 - OneRepublic%20-%20Стоп%20анд%20Старе.mp3",
             "3 - Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3",
             "4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3",
             "2 - тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
@@ -52,43 +52,43 @@ public class PlayListParserTest {
 
     private static String playListContentBefore = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Няньки) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Лучшая группа - ЛУЧШИЙ_Трэк\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentTranslited = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Njan'ki) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Lu4shaja gruppa - LU4SHIJ_Trek\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentAfterTranslitedIndexed = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\1 - OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\1 - OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Njan'ki) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\2 - tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\2 - tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Lu4shaja gruppa - LU4SHIJ_Trek\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\3 - Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\3 - Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentIndexed = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\1 - OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\1 - OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Няньки) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\2 - тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\2 - тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Лучшая группа - ЛУЧШИЙ_Трэк\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\3 - Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\test-music\\3 - Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music -backup\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     @Before
     public void setUp() throws Exception {
@@ -110,6 +110,21 @@ public class PlayListParserTest {
         playListParser = new PlayListParser(folderReader, indexer, translitor);
         playListParser.execute();
 
+        checkFolderContents(playListContentBefore, testMp3FilesBefore);
+    }
+
+    @Test
+    public void testExecuteTranslitorTranslitIndexerNone() throws Exception {
+        FolderReader folderReader = new FolderReader(FOLDER_LOC);
+        Indexer indexer = new Indexer(IndexerOperation.NONE);
+        Translitor translitor = new Translitor(TranslitorOperation.TRANSLIT);
+        playListParser = new PlayListParser(folderReader, indexer, translitor);
+        playListParser.execute();
+
+        checkFolderContents(playListContentTranslited, testMp3FilesTranslited);
+    }
+
+    private void checkFolderContents(String expectedPlayListContent, final String[] expectedFolderFiles) throws Exception {
         DirectoryStream<Path> paths = Files.newDirectoryStream(FOLDER_LOC);
         Iterator<Path> iterator = paths.iterator();
 
@@ -123,17 +138,17 @@ public class PlayListParserTest {
                 Path absolutePath = next.toAbsolutePath();
 //                System.out.println("PLAYLIST: " + fileName);
                 String playListContent = readPlayListFile(absolutePath);
-                assertEquals("Playlist content is not equal to expected", playListContent, playListContentBefore);
+                assertEquals("Playlist content is not equal to expected", playListContent, expectedPlayListContent);
                 playlistFileFound = true;
             } else {
                 boolean musicFileFound = false;
-                for (String mp3Name : testMp3FilesBefore) {
+                for (String mp3Name : expectedFolderFiles) {
                     if (fileName.equals(mp3Name)) {
 //                        System.out.println("MATCH: " + mp3Name);
                         musicFileFound = true;
                     }
                 }
-                assertTrue("Music file not found", musicFileFound);
+                assertTrue("No match for music file " + fileName, musicFileFound);
             }
         }
         assertTrue("Playlist file not found", playlistFileFound);
@@ -175,7 +190,12 @@ public class PlayListParserTest {
     private String readPlayListFile(Path playlistPath) {
         try {
             byte[] playlistFileContent = Files.readAllBytes(playlistPath);
-            return new String(playlistFileContent);
+            String playlistFileContentStr = new String(playlistFileContent);
+            playlistFileContentStr = playlistFileContentStr.replace("\r", "");
+            if (playlistFileContentStr.endsWith("\n")) {
+                playlistFileContentStr = playlistFileContentStr.substring(0, playlistFileContentStr.length() - 1);
+            }
+            return playlistFileContentStr;
         } catch (IOException e) {
             throw new RuntimeException("Failed to read playlist file", e);
         }
