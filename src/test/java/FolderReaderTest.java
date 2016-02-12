@@ -16,7 +16,7 @@ public class FolderReaderTest {
 
     private static FolderReader folderReader;
     private static String testMusicFolderName = "\\test-music";
-    private String playListFileName = "D:\\java\\projects\\playlist-creator\\test-music\\test-playlist.m3u8";
+    private Path playListFileName = Paths.get("D:\\java\\projects\\playlist-creator\\test-music\\test-playlist.m3u8");
     private static String[] testFiles = new String[]{
             "Death - Voice of the Soul.mp3",
             "OneRepublic%20-%20Stop%20and%20Stare.mp3",
@@ -84,7 +84,7 @@ public class FolderReaderTest {
         FileType fileType = playListFile.getType();
         assertEquals(FileType.PLAYLIST_FILE, fileType);
 
-        String originalName = playListFile.getOriginalName();
+        Path originalName = playListFile.getOriginalPath();
         assertEquals(playListFileName, originalName);
     }
 

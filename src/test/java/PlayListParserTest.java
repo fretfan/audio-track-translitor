@@ -70,7 +70,7 @@ public class PlayListParserTest {
             "#EXTINF:387,Scorpions - Still loving you\n" +
             "D:\\java\\projects\\playlist-creator\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
-    private static String playListContentAfterTranslitedIndexed = "#EXTM3U\n" +
+    private static String playListContentTranslitedIndexed = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
             "D:\\java\\projects\\playlist-creator\\test-music\\1 - OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Njan'ki) (zaycev.net)\n" +
@@ -124,6 +124,28 @@ public class PlayListParserTest {
         checkFolderContents(playListContentTranslited, testMp3FilesTranslited);
     }
 
+    @Test
+    public void testExecuteTranslitorNoneIndexerIndex() throws Exception {
+        FolderReader folderReader = new FolderReader(FOLDER_LOC);
+        Indexer indexer = new Indexer(IndexerOperation.INDEX);
+        Translitor translitor = new Translitor(TranslitorOperation.NONE);
+        playListParser = new PlayListParser(folderReader, indexer, translitor);
+        playListParser.execute();
+
+        checkFolderContents(playListContentIndexed, testMp3FilesIndexed);
+    }
+
+    @Test
+    public void testExecuteTranslitorTranslitIndexerIndex() throws Exception {
+        FolderReader folderReader = new FolderReader(FOLDER_LOC);
+        Indexer indexer = new Indexer(IndexerOperation.INDEX);
+        Translitor translitor = new Translitor(TranslitorOperation.TRANSLIT);
+        playListParser = new PlayListParser(folderReader, indexer, translitor);
+        playListParser.execute();
+
+        checkFolderContents(playListContentTranslitedIndexed, testMp3FilesTranslitedIndexed);
+    }
+
     private void checkFolderContents(String expectedPlayListContent, final String[] expectedFolderFiles) throws Exception {
         DirectoryStream<Path> paths = Files.newDirectoryStream(FOLDER_LOC);
         Iterator<Path> iterator = paths.iterator();
@@ -136,7 +158,6 @@ public class PlayListParserTest {
             String fileName = next.getFileName().toString();
             if (fileName.endsWith(".m3u8")) {
                 Path absolutePath = next.toAbsolutePath();
-//                System.out.println("PLAYLIST: " + fileName);
                 String playListContent = readPlayListFile(absolutePath);
                 assertEquals("Playlist content is not equal to expected", playListContent, expectedPlayListContent);
                 playlistFileFound = true;

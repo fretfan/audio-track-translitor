@@ -33,11 +33,11 @@ public class FolderReader {
                 if (fileName.endsWith(".m3u8")) {
                     playListFile = new File();
                     playListFile.setType(FileType.PLAYLIST_FILE);
-                    playListFile.setOriginalName(p.toString());
+                    playListFile.setOriginalPath(p);
                 } else if (fileName.endsWith(".mp3") || fileName.endsWith(".ogg") || fileName.endsWith(".wav")) {
                     File f = new File();
                     f.setType(FileType.MUSIC_FILE);
-                    f.setOriginalName(p.toAbsolutePath().toString());
+                    f.setOriginalPath(p.toAbsolutePath());
                     audioFiles.add(f);
                 } else {
                     System.err.println("Cannot parse file: " + fileName );

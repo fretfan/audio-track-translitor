@@ -1,11 +1,13 @@
+import java.nio.file.Path;
+import java.util.Objects;
+
 /**
  * Created by seroga on 10-Jan-16.
  */
 public class File {
 
-    private String originalName;
-    private String translitedName;
-    private String prefix;
+    private Path originalPath;
+    private Path translitedPath;
     private FileType type;
 
     public FileType getType() {
@@ -16,35 +18,32 @@ public class File {
         this.type = type;
     }
 
-    public String getOriginalName() {
-        return originalName;
+    public Path getOriginalPath() {
+        return originalPath;
     }
 
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+    public void setOriginalPath(Path originalPath) {
+        this.originalPath = originalPath;
     }
 
-    public String getTranslitedName() {
-        return translitedName;
+    public Path getTranslitedPath() {
+        return translitedPath;
     }
 
-    public void setTranslitedName(String translitedName) {
-        this.translitedName = translitedName;
+    public void setTranslitedPath(Path translitedPath) {
+        this.translitedPath = translitedPath;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         File file = (File) o;
-
-        return !(originalName != null ? !originalName.equals(file.originalName) : file.originalName != null);
-
+        return Objects.equals(originalPath, file.originalPath);
     }
 
     @Override
     public int hashCode() {
-        return originalName != null ? originalName.hashCode() : 0;
+        return Objects.hash(originalPath);
     }
 }

@@ -3,7 +3,7 @@
  */
 public class Indexer {
 
-    public static final String PREFIX = "_";
+    public static final String PREFIX = " - ";
     private final IndexerOperation operation;
 
     public Indexer(IndexerOperation operation) {

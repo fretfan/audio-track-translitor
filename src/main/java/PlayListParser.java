@@ -19,9 +19,9 @@ public class PlayListParser {
     }
 
     private List<String> readPlayListFile() {
-        String originalName = folderReader.getPlayListFile().getOriginalName();
+        Path originalName = folderReader.getPlayListFile().getOriginalPath();
         try {
-            return Files.readAllLines(Paths.get(originalName));
+            return Files.readAllLines(originalName);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read playlist file", e);
         }
@@ -39,10 +39,13 @@ public class PlayListParser {
         for (String line : lines) {
 //            System.out.println(line);
             if (line.startsWith("#")) {
-                String parsedLine = translitor.translitText(line);
+                String parsedLine = line;
+                if (translitor.getOperation() == TranslitorOperation.TRANSLIT) {
+                    parsedLine = translitor.translitText(line);
+                }
                 newPlayListContent.add(parsedLine);
             } else {
-//                trackCount++;
+                trackCount++;
                 parseAudioFilePath(newPlayListContent, audioFiles, line, trackCount);
             }
         }
@@ -50,24 +53,32 @@ public class PlayListParser {
     }
 
     private void updatePlaylist(List<String> newPlayListContent) {
-        Path path = Paths.get(folderReader.getPlayListFile().getOriginalName());
+        Path path = folderReader.getPlayListFile().getOriginalPath();
         try {
             Files.deleteIfExists(path);
             Files.write(path, newPlayListContent, StandardOpenOption.CREATE);
 
         } catch (IOException e) {
-            throw new RuntimeException("Cannot rewrite playlist " + folderReader.getPlayListFile().getOriginalName(), e);
+            throw new RuntimeException("Cannot rewrite playlist " + folderReader.getPlayListFile().getOriginalPath(), e);
         }
     }
 
     private void parseAudioFilePath(List<String> newPlayListContent, List<File> audioFiles, String line, int trackCount) {
         Path pathToFolder = folderReader.getPathToFolder();
         for (File f : audioFiles) {
-            if (f.getOriginalName().equals(line)) {
-                String translitedLine = translitor.processPath(line);
-//                translitedLine = indexer.performOperation(translitedLine, trackCount);
-                f.setTranslitedName(translitedLine);
-                newPlayListContent.add(translitedLine);
+            if (f.getOriginalPath().toString().equals(line)) {
+                String processedLine = line;
+                if (translitor.getOperation() == TranslitorOperation.TRANSLIT) {
+                    processedLine = translitor.processPath(line);
+                }
+                if (indexer.getOperation() == IndexerOperation.INDEX) {
+                    Path path = Paths.get(processedLine);
+                    String indexedFileName = indexer.performOperation(path.getFileName().toString(), trackCount);
+                    Path pathIndexed = path.resolveSibling(indexedFileName);
+                    processedLine = pathIndexed.toString();
+                }
+                f.setTranslitedPath(Paths.get(processedLine));
+                newPlayListContent.add(processedLine);
 
                 renameAudioFile(pathToFolder, f);
                 break;
@@ -79,8 +90,8 @@ public class PlayListParser {
         try {
             DirectoryStream<Path> audioFilePaths = Files.newDirectoryStream(pathToFolder);
             for (Path p : audioFilePaths) {
-                if (f.getOriginalName().equals(p.toAbsolutePath().toString())) {
-                    Files.move(p, p.resolveSibling(f.getTranslitedName()));
+                if (f.getOriginalPath().equals(p.toAbsolutePath())) {
+                    Files.move(p, p.resolveSibling(f.getTranslitedPath()));
                     break;
                 }
             }
