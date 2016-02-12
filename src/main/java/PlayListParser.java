@@ -76,6 +76,11 @@ public class PlayListParser {
                     String indexedFileName = indexer.performOperation(path.getFileName().toString(), trackCount);
                     Path pathIndexed = path.resolveSibling(indexedFileName);
                     processedLine = pathIndexed.toString();
+                } else if (indexer.getOperation() == IndexerOperation.UNINDEX) {
+                    Path path = Paths.get(processedLine);
+                    String unIndexedFileName = indexer.performOperation(path.getFileName().toString(), 0);
+                    Path pathIndexed = path.resolveSibling(unIndexedFileName);
+                    processedLine = pathIndexed.toString();
                 }
                 f.setTranslitedPath(Paths.get(processedLine));
                 newPlayListContent.add(processedLine);

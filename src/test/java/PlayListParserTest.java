@@ -93,8 +93,8 @@ public class PlayListParserTest {
     @Before
     public void setUp() throws Exception {
         deleteFolderContent();
-        createFolderContent();
-
+        createFolderContent(testMp3FilesBefore);
+        createPlayListFile(playListContentBefore);
     }
 
     @After
@@ -146,6 +146,21 @@ public class PlayListParserTest {
         checkFolderContents(playListContentTranslitedIndexed, testMp3FilesTranslitedIndexed);
     }
 
+    @Test
+    public void testExecuteTranslitorNoneIndexerUnIndex() throws Exception {
+        deleteFolderContent();
+        createFolderContent(testMp3FilesIndexed);
+        createPlayListFile(playListContentIndexed);
+
+        FolderReader folderReader = new FolderReader(FOLDER_LOC);
+        Indexer indexer = new Indexer(IndexerOperation.UNINDEX);
+        Translitor translitor = new Translitor(TranslitorOperation.NONE);
+        playListParser = new PlayListParser(folderReader, indexer, translitor);
+        playListParser.execute();
+
+        checkFolderContents(playListContentBefore, testMp3FilesBefore);
+    }
+
     private void checkFolderContents(String expectedPlayListContent, final String[] expectedFolderFiles) throws Exception {
         DirectoryStream<Path> paths = Files.newDirectoryStream(FOLDER_LOC);
         Iterator<Path> iterator = paths.iterator();
@@ -187,8 +202,8 @@ public class PlayListParserTest {
         }
     }
 
-    private void createFolderContent() {
-        for (String fileName : testMp3FilesBefore) {
+    private void createFolderContent(final String[] mp3FilesList) {
+        for (String fileName : mp3FilesList) {
             Path filePath = FOLDER_LOC.resolve(fileName);
             try {
                 Files.createFile(filePath);
@@ -196,13 +211,12 @@ public class PlayListParserTest {
                 throw new RuntimeException(e);
             }
         }
-        createPlayListFile();
     }
 
-    private void createPlayListFile() {
+    private void createPlayListFile(String playListContent) {
         Path path = FOLDER_LOC.resolve(playListFileName);
         try {
-            Files.write(path, playListContentBefore.getBytes());
+            Files.write(path, playListContent.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
