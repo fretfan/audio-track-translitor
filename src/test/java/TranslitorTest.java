@@ -16,7 +16,7 @@ public class TranslitorTest {
     }
 
     @Test
-    public void testTranslit() throws Exception {
+    public void testTranslitText() throws Exception {
         String[] before = new String[]{
                 "№~`1!2@3#4$5%6^7&8*9(0)-_=+/|\\",
                 "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪ",

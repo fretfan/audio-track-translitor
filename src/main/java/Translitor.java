@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by seroga on 03-Jan-16.
+ * Converts russian characters into english.
  */
 public class Translitor {
 
@@ -58,6 +58,11 @@ public class Translitor {
         alphabet.put("я", "ja");
     }
 
+    /**
+     * Replaces russian characters in text with english.
+     * @param text to be translited
+     * @return translited text
+     */
     public String translitText(String text) {
         StringBuilder result = new StringBuilder("");
         for (int i = 0; i < text.length(); i++) {
@@ -77,7 +82,6 @@ public class Translitor {
                     String engRepresentationUpperStr = engRepresentationStr.toUpperCase();
                     result.append(String.valueOf(engRepresentationUpperStr));
                 }
-
             } else {
                 result.append(currentCharStr);
             }
@@ -92,6 +96,12 @@ public class Translitor {
         return pathToSong + translitText(song);
     }
 
+    /**
+     * Translits string. Either does nothing or translits.<br>
+     * Depends on operation provided during class initialization.
+     * @param path text to process
+     * @return processed text
+     */
     public String processPath(String path) {
         switch (operation) {
             case NONE:
