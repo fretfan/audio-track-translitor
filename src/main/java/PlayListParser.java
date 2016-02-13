@@ -82,7 +82,7 @@ public class PlayListParser {
                     Path pathIndexed = path.resolveSibling(unIndexedFileName);
                     processedLine = pathIndexed.toString();
                 }
-                f.setTranslitedPath(Paths.get(processedLine));
+                f.setProcessedPath(Paths.get(processedLine));
                 newPlayListContent.add(processedLine);
 
                 renameAudioFile(pathToFolder, f);
@@ -96,7 +96,7 @@ public class PlayListParser {
             DirectoryStream<Path> audioFilePaths = Files.newDirectoryStream(pathToFolder);
             for (Path p : audioFilePaths) {
                 if (f.getOriginalPath().equals(p.toAbsolutePath())) {
-                    Files.move(p, p.resolveSibling(f.getTranslitedPath()));
+                    Files.move(p, p.resolveSibling(f.getProcessedPath()));
                     break;
                 }
             }

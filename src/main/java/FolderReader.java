@@ -18,7 +18,6 @@ public class FolderReader {
     public FolderReader(Path pathToFolder) {
         this.pathToFolder = pathToFolder;
         readFolderForFiles(pathToFolder);
-
     }
 
     private void readFolderForFiles(Path path) {

@@ -2,12 +2,12 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 /**
- * Created by seroga on 10-Jan-16.
+ * Contains original and parsed (translited/indexed/unindexed) paths.
  */
 public class File {
 
     private Path originalPath;
-    private Path translitedPath;
+    private Path processedPath;
     private FileType type;
 
     public FileType getType() {
@@ -26,12 +26,12 @@ public class File {
         this.originalPath = originalPath;
     }
 
-    public Path getTranslitedPath() {
-        return translitedPath;
+    public Path getProcessedPath() {
+        return processedPath;
     }
 
-    public void setTranslitedPath(Path translitedPath) {
-        this.translitedPath = translitedPath;
+    public void setProcessedPath(Path processedPath) {
+        this.processedPath = processedPath;
     }
 
     @Override
