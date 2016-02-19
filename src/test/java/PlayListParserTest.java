@@ -2,7 +2,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -162,8 +162,8 @@ public class PlayListParserTest {
     }
 
     private void checkFolderContents(String expectedPlayListContent, final String[] expectedFolderFiles) throws Exception {
-        DirectoryStream<Path> paths = Files.newDirectoryStream(FOLDER_LOC);
-        Iterator<Path> iterator = paths.iterator();
+        DirectoryStream<Path> dir = Files.newDirectoryStream(FOLDER_LOC);
+        Iterator<Path> iterator = dir.iterator();
 
         boolean playlistFileFound = false;
 
@@ -182,6 +182,7 @@ public class PlayListParserTest {
                     if (fileName.equals(mp3Name)) {
 //                        System.out.println("MATCH: " + mp3Name);
                         musicFileFound = true;
+                        break;
                     }
                 }
                 assertTrue("No match for music file " + fileName, musicFileFound);
