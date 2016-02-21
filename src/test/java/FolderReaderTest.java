@@ -15,8 +15,8 @@ import static org.junit.Assert.assertNotNull;
 public class FolderReaderTest {
 
     private static FolderReader folderReader;
-    private static String testMusicFolderName = "\\test-music";
-    private Path playListFileName = Paths.get("D:\\java\\projects\\playlist-creator\\test-music\\test-playlist.m3u8");
+    private static String testMusicFolderName = "src\\test\\resources\\test-music";
+    private Path playListFileName = Paths.get("D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\test-playlist.m3u8");
     private static String[] testFiles = new String[]{
             "Death - Voice of the Soul.mp3",
             "OneRepublic%20-%20Stop%20and%20Stare.mp3",
@@ -26,7 +26,7 @@ public class FolderReaderTest {
             "тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3"
     };
 
-    private static Path folderLocStr = Paths.get("D:/java/projects/playlist-creator/test-music");
+    private static Path folderLocStr = Paths.get("D:/java/projects/playlist-creator/src/test/resources/test-music");
     private static Path folderLocPath;
 
 
@@ -42,9 +42,6 @@ public class FolderReaderTest {
     }
 
     private static void initTestFiles() throws Exception {
-//        String curLoc = Paths.get("").toAbsolutePath().toString();
-//        String testMusicLoc = curLoc + testMusicFolderName;
-//        boolean directory = Files.isDirectory(Paths.get(testMusicLoc));
 
         for (String testFileName : testFiles) {
 

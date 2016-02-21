@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class PlayListParserTest {
 
     private PlayListParser playListParser;
-    private final Path FOLDER_LOC = Paths.get("test-music");
+    private final Path FOLDER_LOC = Paths.get("src/test/resources/test-music");
 
     private static String playListFileName = "test-playlist.m3u8";
 
@@ -52,43 +52,43 @@ public class PlayListParserTest {
 
     private static String playListContentBefore = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Няньки) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Лучшая группа - ЛУЧШИЙ_Трэк\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentTranslited = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Njan'ki) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Lu4shaja gruppa - LU4SHIJ_Trek\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentTranslitedIndexed = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\1 - OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\1 - OneRepublic%20-%20Stop%20and%20Stare.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Njan'ki) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\2 - tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\2 - tim_mak_morris_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Lu4shaja gruppa - LU4SHIJ_Trek\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\3 - Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\3 - Lu4shaja gruppa_-_LU4SHIJ_Trek 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     private static String playListContentIndexed = "#EXTM3U\n" +
             "#EXTINF:223,OneRepublic - Stop And Stare\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\1 - OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\1 - OneRepublic%20-%20Стоп%20анд%20Старе.mp3\n" +
             "#EXTINF:182,Tim McMorris - Were Going Up (OST Няньки) (zaycev.net)\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\2 - тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\2 - тим_мак_моррис_-_were_going_up_ost_nyanki_(zaycev.net).mp3\n" +
             "#EXTINF:233,Лучшая группа - ЛУЧШИЙ_Трэк\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\3 - Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\3 - Лучшая группа_-_ЛУЧШИЙ_Трэк 23.mp3\n" +
             "#EXTINF:387,Scorpions - Still loving you\n" +
-            "D:\\java\\projects\\playlist-creator\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
+            "D:\\java\\projects\\playlist-creator\\src\\test\\resources\\test-music\\4 - Scorpions_-_Still_loving_you_(get-tune.net).mp3";
 
     @Before
     public void setUp() throws Exception {
