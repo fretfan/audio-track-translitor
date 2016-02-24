@@ -9,7 +9,6 @@ public class IndexerTest {
 
     private static Indexer indexer;
 
-
     @Test
     public void testPerformOperationIndex() {
         indexer = new Indexer(IndexerOperation.INDEX);

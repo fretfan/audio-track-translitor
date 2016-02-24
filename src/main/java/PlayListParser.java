@@ -3,9 +3,6 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by seroga on 10-Jan-16.
- */
 public class PlayListParser {
 
     private FolderReader folderReader;

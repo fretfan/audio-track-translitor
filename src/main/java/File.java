@@ -8,7 +8,20 @@ public class File {
 
     private Path originalPath;
     private Path processedPath;
+    private String originalTitle;
+    private String processedTitle;
+    private String originalArtist;
+    private String processedArtist;
     private FileType type;
+
+    public File(Path originalPath, String originalArtist, String originalTitle) {
+        this.originalPath = originalPath;
+        this.originalArtist = originalArtist;
+        this.originalTitle = originalTitle;
+    }
+
+    public File() {
+    }
 
     public FileType getType() {
         return type;
@@ -32,6 +45,38 @@ public class File {
 
     public void setProcessedPath(Path processedPath) {
         this.processedPath = processedPath;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public String getProcessedTitle() {
+        return processedTitle;
+    }
+
+    public void setProcessedTitle(String processedTitle) {
+        this.processedTitle = processedTitle;
+    }
+
+    public String getOriginalArtist() {
+        return originalArtist;
+    }
+
+    public void setOriginalArtist(String originalArtist) {
+        this.originalArtist = originalArtist;
+    }
+
+    public String getProcessedArtist() {
+        return processedArtist;
+    }
+
+    public void setProcessedArtist(String processedArtist) {
+        this.processedArtist = processedArtist;
     }
 
     @Override

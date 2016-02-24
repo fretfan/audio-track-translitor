@@ -1,14 +1,15 @@
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by seroga on 05-Jan-16.
- */
 public class FolderReader {
 
     private Path pathToFolder;
@@ -21,36 +22,39 @@ public class FolderReader {
     }
 
     private void readFolderForFiles(Path path) {
-//        String filteredPath = filterPath(path);
 
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
             for (Path p : directoryStream) {
-//                System.out.println(p.getFileName().toString());
-//                System.out.println(p.toAbsolutePath().toString());
                 String fileName = p.getFileName().toString();
 
                 if (fileName.endsWith(".m3u8")) {
                     playListFile = new File();
                     playListFile.setType(FileType.PLAYLIST_FILE);
                     playListFile.setOriginalPath(p);
-                } else if (fileName.endsWith(".mp3") || fileName.endsWith(".ogg") || fileName.endsWith(".wav")) {
+                } else if (fileName.toLowerCase().endsWith(".mp3")) {
                     File f = new File();
                     f.setType(FileType.MUSIC_FILE);
                     f.setOriginalPath(p.toAbsolutePath());
+
+                    try {
+                        Mp3File mp3File = new Mp3File(p.toAbsolutePath().toString());
+                        if (mp3File.hasId3v2Tag()) {
+                            ID3v2 id3v2Tag = mp3File.getId3v2Tag();
+                            f.setOriginalArtist(id3v2Tag.getArtist());
+                            f.setOriginalTitle(id3v2Tag.getTitle());
+                        }
+                    } catch (UnsupportedTagException | InvalidDataException e ) {
+                        throw new RuntimeException(e);
+                    }
                     audioFiles.add(f);
                 } else {
-                    System.err.println("Cannot parse file: " + fileName );
+                    throw new RuntimeException("Cannot parse file: " + fileName);
                 }
             }
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read: " + path, ex);
         }
     }
-
-//    private String filterPath(Path path) {
-//        String newPath = path.replace("/", "\\");
-//        return newPath;
-//    }
 
     public File getPlayListFile() {
         if (playListFile == null) {

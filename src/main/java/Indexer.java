@@ -1,6 +1,3 @@
-/**
- * Created by seroga on 20-Jan-16.
- */
 public class Indexer {
 
     public static final String PREFIX = " - ";
