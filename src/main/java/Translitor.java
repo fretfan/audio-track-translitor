@@ -64,6 +64,9 @@ public class Translitor {
      * @return translited text
      */
     public String translitText(String text) {
+        if (text == null) {
+            return null;
+        }
         StringBuilder result = new StringBuilder("");
         for (int i = 0; i < text.length(); i++) {
             char currentChar = text.charAt(i);

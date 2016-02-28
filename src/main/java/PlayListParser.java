@@ -1,3 +1,5 @@
+import com.mpatric.mp3agic.*;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class PlayListParser {
                 String processedLine = line;
                 if (translitor.getOperation() == TranslitorOperation.TRANSLIT) {
                     processedLine = translitor.processPath(line);
+                    processMp3Tags(f);
                 }
                 if (indexer.getOperation() == IndexerOperation.INDEX) {
                     Path path = Paths.get(processedLine);
@@ -88,6 +91,46 @@ public class PlayListParser {
         }
     }
 
+    private void processMp3Tags(File f) {
+
+        try {
+            Mp3File mp3File = new Mp3File(f.getOriginalPath().toAbsolutePath().toString());
+            Path originalAbsolutePath = f.getOriginalPath().toAbsolutePath();
+            if (mp3File.hasId3v2Tag()) {
+                ID3v2 id3v2Tag = mp3File.getId3v2Tag();
+                f.setProcessedArtist(id3v2Tag.getArtist());
+                f.setProcessedTitle(id3v2Tag.getTitle());
+                id3v2Tag.setArtist(translitor.translitText(id3v2Tag.getArtist()));
+                id3v2Tag.setTitle(translitor.translitText(id3v2Tag.getTitle()));
+
+                // KOSTYLI BLEAT!!!!
+                String fileName = originalAbsolutePath.getFileName().toString();
+                int indexOf = fileName.indexOf(".mp3");
+                String newName = fileName.substring(0, indexOf) + "_temp_copy" + fileName.substring(indexOf, fileName.length());
+                Path tempPath = originalAbsolutePath.getParent().resolve(newName);
+                /*
+                Mp3agic doesn't allowto rewrite file. Creating file with _temp_copy postfix.
+                Delete original file. Create new mp3 file with original name and saved tags.
+                Delete temp file.
+                 */
+                mp3File.save(tempPath.toString());
+                Mp3File newMp3File = new Mp3File(tempPath.toString());
+
+                Files.deleteIfExists(originalAbsolutePath);
+                newMp3File.save(originalAbsolutePath.toString());
+                Files.deleteIfExists(tempPath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedTagException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidDataException e) {
+            throw new RuntimeException(e);
+        } catch (NotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void renameAudioFile(Path pathToFolder, File f) {
         try {
             DirectoryStream<Path> audioFilePaths = Files.newDirectoryStream(pathToFolder);
@@ -97,7 +140,6 @@ public class PlayListParser {
                     break;
                 }
             }
-
         } catch (IOException e) {
             throw new RuntimeException("Cannot read directory " + pathToFolder, e);
         }
